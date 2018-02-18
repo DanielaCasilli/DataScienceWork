@@ -1,6 +1,7 @@
 rm(list = ls())
 #setwd("/srv/shiny-server/facebookAd")
-setwd("/Users/danielacasilli/Docs/DataScience/DataScienceWork/FacebookAdCampaign")
+#setwd("/Users/danielacasilli/Docs/DataScience/DataScienceWork/FacebookAdCampaign")
+setwd("~/DataScienceWork/FacebookAdCampaign/")
 library(shiny)
 library(shinyLP)
 library(shinyBS)
@@ -38,7 +39,7 @@ shinyUI(navbarPage(
     
     
     column(
-      6,
+      12,
       panel_div(
         "success",
         "Application Maintainers",
@@ -57,7 +58,13 @@ shinyUI(navbarPage(
            uiOutput("ages"))
     ),
     fluidRow(
-      box(plotlyOutput("plotAgeDist") %>% withSpinner(type = 8, color = "red"))
+      column(12,
+      box(plotlyOutput("plotAgeDist") %>% withSpinner(type = 8, color = "red")),
+      box(plotlyOutput("plotInterestConversion")%>% withSpinner(type = 8, color = "red"))
+             )
+    ),
+    fluidRow(
+      box(plotOutput("plotBehaviourGraph"))
     )
   )
 

@@ -1,6 +1,7 @@
 rm(list = ls())
 #setwd("/srv/shiny-server/facebookAd")
-setwd("/Users/danielacasilli/Docs/DataScience/DataScienceWork/FacebookAdCampaign")
+#setwd("/Users/danielacasilli/Docs/DataScience/DataScienceWork/FacebookAdCampaign")
+setwd("~/DataScienceWork/FacebookAdCampaign/")
 source("global.R") 
 # --- Libraries
 library(shiny)
@@ -14,7 +15,9 @@ shinyServer(function(input, output){
   # --- Age Plot
   output$plotAgeDist <- renderPlotly({plotAge})
 
+  output$plotInterestConversion <- renderPlotly({plotInterest})
   
+  output$plotBehaviourGraph <- renderPlot({plotBehaviour})
 
   
   # --- Filter code
