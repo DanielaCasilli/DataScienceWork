@@ -1,6 +1,19 @@
 # DataScienceWork
 
-Repository for project code
+Repository for project code.
+
+## Contents
+
+# FacebookAdCampaign
+Contains:
+- Shiny server information
+- Analysis of ad campaign
+
+# Insatcart
+Contains:
+- SBT project outline
+- Scala clustering model
+
 
 ## Authors
 

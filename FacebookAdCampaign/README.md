@@ -6,7 +6,7 @@ Repository for project code
 
 To access the app
 ```
-http://publicIP:3838/sample-apps/hello/
+http://publicIP:3838/facebookCampaign/
 ```
 To access RStudio via instance
 ```
@@ -16,7 +16,7 @@ Publci DNS (IPv4) in browser
 ### Helpful tips
 To change write access of a folder
 ```
-sudo chown user:user /srv/shiny-server/facebookAd/
+sudo chown user:user /srv/shiny-server/facebookCampaign/
 ```
 To find user name
 ```
@@ -64,7 +64,7 @@ Move app under location:
 ```
 /srv/shiny-server/
 ```
-Acces app 
+Acces app
 ```
 http://ecIP.us-west-2.compute.amazonaws.com:3838/appName
 ```

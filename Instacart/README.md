@@ -1,12 +1,12 @@
 # DataScienceWork
 
-Repository for project code
+Repository for project code for clustering model
 
 ## Shiny App Information
 
 To access the app
 ```
-http://publicIP:3838/sample-apps/hello/
+http://publicIP:3838/instacart/
 ```
 To access RStudio via instance
 ```
@@ -16,7 +16,7 @@ Publci DNS (IPv4) in browser
 ### Helpful tips
 To change write access of a folder
 ```
-sudo chown user:user /srv/shiny-server/facebookAd/
+sudo chown user:user /srv/shiny-server/instacart/
 ```
 To find user name
 ```
