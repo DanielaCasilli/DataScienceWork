@@ -1,6 +1,6 @@
 # DataScienceWork
 
-Repository for project code for (Instacart Kaggle competition)(https://www.kaggle.com/c/instacart-market-basket-analysis]
+Repository for project code for [Instacart Kaggle competition](https://www.kaggle.com/c/instacart-market-basket-analysis)
 
 ## Shiny App Information
 
