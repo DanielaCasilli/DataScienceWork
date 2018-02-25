@@ -1,2 +1,8 @@
+*.DS_Store
 *.class
 *.log
+project/
+target/
+resources/
+.idea/
+.spark-warehouse/
