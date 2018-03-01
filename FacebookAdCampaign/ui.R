@@ -1,7 +1,13 @@
+#########################################################################
+#
+# --- Facebook Campaign ui.R
+#
+#########################################################################
+
+# --- Set up
 rm(list = ls())
-#setwd("/srv/shiny-server/facebookAd")
-#setwd("/Users/danielacasilli/Docs/DataScience/DataScienceWork/FacebookAdCampaign")
-setwd("~/DataScienceWork/FacebookAdCampaign/")
+setwd("/srv/shiny-server/facebookCmapaign")
+# libraries
 library(shiny)
 library(shinyLP)
 library(shinyBS)
@@ -9,6 +15,10 @@ library(shinythemes)
 library(shinydashboard)
 library(shinycssloaders)
 library(dplyr)
+
+
+# --- Set up Shiny
+
 # Define Shiny Items
 DBHeader <- dashboardHeader(title = "")
 
@@ -18,8 +28,9 @@ DBSidebar <- dashboardSidebar(
 DBBody <- dashboardBody(
   
 )
-# Create UI
 
+
+# --- UI
 
 shinyUI(navbarPage(
   title = div(
@@ -33,7 +44,7 @@ shinyUI(navbarPage(
     
     jumbotron(
       "Facebook Ad Campaign Analysis",
-      "An analysis of Facebook Ad campaign",
+      "An analysis of Facebook ad campaign",
       button = FALSE
     ),
     
@@ -52,19 +63,30 @@ shinyUI(navbarPage(
   
   
   tabPanel(
-    "Age Plot",
+    "Cluster Characteristics",
     fluidRow(
-    column(4,
-           uiOutput("ages"))
+      column(12,
+      box(plotlyOutput("plot1") %>% withSpinner(type = 8, color = "red")),
+      box(plotlyOutput("plot2")%>% withSpinner(type = 8, color = "red"))
+      )
     ),
     fluidRow(
       column(12,
-      box(plotlyOutput("plotAgeDist") %>% withSpinner(type = 8, color = "red")),
-      box(plotlyOutput("plotInterestConversion")%>% withSpinner(type = 8, color = "red"))
-             )
-    ),
+      box(plotlyOutput("plot3")%>% withSpinner(type = 8, color = "red")),
+      box(plotlyOutput("plot4")%>% withSpinner(type = 8, color = "red"))
+      )
+    )
+  )
+  ,
+  
+  
+  tabPanel(
+    "Cluster Analysis",
     fluidRow(
-      box(plotOutput("plotBehaviourGraph"))
+      column(12,
+             box(plotlyOutput("plot5") %>% withSpinner(type = 8, color = "red")),
+             box(plotlyOutput("plot6")%>% withSpinner(type = 8, color = "red"))
+      )
     )
   )
 

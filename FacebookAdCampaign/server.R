@@ -1,50 +1,39 @@
+#########################################################################
+#
+# --- Facebook Campaign server.R
+#
+#########################################################################
+
+# --- Set up
 rm(list = ls())
-#setwd("/srv/shiny-server/facebookAd")
-#setwd("/Users/danielacasilli/Docs/DataScience/DataScienceWork/FacebookAdCampaign")
-setwd("~/DataScienceWork/FacebookAdCampaign/")
-source("global.R") 
-# --- Libraries
+setwd("/srv/shiny-server/facebookCmampaign")
+# source files
+source("./global.R") 
+# libraries
 library(shiny)
 library(rvest)
+
+
+
 # --- Initialisation
 
 # Define server logic required to draw a histogram
 shinyServer(function(input, output){
  value <- reactiveValues()
 
-  # --- Age Plot
-  output$plotAgeDist <- renderPlotly({plotAge})
+  # --- Plot
+  output$plot1 <- renderPlotly({plot1})
+  
+  output$plot2 <- renderPlotly({plot2})
+  
+  output$plot3 <- renderPlotly({plot3})
+  
+  output$plot4 <- renderPlotly({plot4})
+  
+  output$plot5 <- renderPlotly({plot5})
+  
+  output$plot6 <- renderPlotly({plot6})
 
-  output$plotInterestConversion <- renderPlotly({plotInterest})
-  
-  output$plotBehaviourGraph <- renderPlot({plotBehaviour})
-
-  
-  # --- Filter code
-  
-  ages <- sort(unique(data$age))
-  output$ages <- renderUI({
-    selectizeInput("ages", choices = ages, label = "Ages",multiple = TRUE)
-  })
-  
-  # --- download code
-  # summarydf1 <- eventReactive(input$myData1,{
-  #   input$myData1 %>%
-  #     read_html %>%
-  #     html_table(fill = TRUE) %>%
-  #     .[[2]]
-  # })
-  # 
-  # observeEvent( input$save1, {
-  #   write.csv(summarydf1(), file="./dataDownload.csv")
-  # })
-  # 
-  # output$download1 <- downloadHandler(
-  #   filename = function(){"Data.csv"}, 
-  #   content = function(filename){
-  #     write.csv(summarydf1(), filename,row.names = FALSE)
-  #   }
-  # )
   
   
 })

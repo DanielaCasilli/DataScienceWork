@@ -1,4 +1,4 @@
-# DataScienceWork
+# Facebook Ad Campaign Analysis
 
 Repository for project code
 
@@ -13,7 +13,7 @@ To access RStudio via instance
 Publci DNS (IPv4) in browser
 ```
 
-### Helpful tips
+### Helpful tips for Shiny Server
 To change write access of a folder
 ```
 sudo chown user:user /srv/shiny-server/facebookCampaign/
@@ -32,11 +32,11 @@ Set up instacne on AWS from http://www.exegetic.biz/blog/2015/05/hosting-shiny-o
 ### ssh into instance
 Make sure key not publically avaialble
 ```
-chmod 400 file.pem
+chmod 400 keyPairFile.pem
 ```
 Ssh with key file into instance
 ```
-ssh -l ubuntu -i AWS-key.pem ubuntu@ecIP.us-west-2.compute.amazonaws.com
+ssh -l ubuntuy -i keyPairFile.pem ubuntu@ecIP.us-west-2.compute.amazonaws.com
 ```
 
 

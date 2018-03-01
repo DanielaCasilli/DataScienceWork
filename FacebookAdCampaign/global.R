@@ -1,93 +1,115 @@
 #########################################################################
 #
-# --- Facebook Campaign main.R
+# --- Facebook Campaign global.R
 #
 #########################################################################
 
-#setwd("/srv/shiny-server/facebookAd")
-#setwd("/Users/danielacasilli/Docs/DataScience/DataScienceWork/FacebookAdCampaign")
-setwd("~/DataScienceWork/FacebookAdCampaign/")
-# --- Libraries
-{
-  library(dplyr)
-  library(ggplot2)
-  library(plotly)
-  library(scales)
-}
+# --- Set up
+
+setwd("/srv/shiny-server/facebookCampaign")
+# libraries
+library(dplyr)
+library(ggplot2)
+library(plotly)
+library(scales)
+library(dummies)
+library(cluster)
+# source functions
+source('data.R')
+
 
 # --- File reading
-data <- read.csv("conversion_data.csv", stringsAsFactors = F)
+#data2 <- read.csv("./clusteredData.csv", stringsAsFactors = T)
+data2$interest <- as.factor(data2$interest)
+data2$cluster <- as.factor(data2$cluster)
+data2$ad_id <- as.factor(data2$ad_id)
+data2$xyz_campaign_id <- as.factor(data2$xyz_campaign_id)
+data2$fb_campaign_id <- as.factor(data2$fb_campaign_id)
+
+
 
 # --- plots
+{
+  
+  # Quantify how conversion rate varies with age, gender or interest.
+  plot1 <- data2 %>%
+    group_by(cluster, age) %>%
+    summarise(conversionRate = sum(Approved_Conversion)/sum(Total_Conversion)) %>%
+    #summarise(conversionRate = sum(Approved_Conversion)) %>%
+    plot_ly(x = ~cluster, y = ~conversionRate, color = ~ age,  type = "bar") %>%
+    layout(title = "Age Distribution",
+           xaxis = list(title = "Age"),
+           yaxis = list(title = "Sum of Approved Conversions"),
+           barmode = 'stack')
+  
+  plot1
 
-plotAge <- data %>%
-  group_by(age) %>%
-  summarise(countPpl = n()) %>%
-  plot_ly() %>%
-  add_trace(x = ~age, y = ~countPpl, type = "bar") %>%
-  layout(title = "Age Distribution",
-         xaxis = list(title = "Age"),
-         yaxis = list(title = "Count of People"))
+  
+  plot2 <- data2 %>%
+    group_by(cluster, gender) %>%
+    summarise(conversionRate = sum(Approved_Conversion)) %>%
+    plot_ly(x = ~gender, y = ~conversionRate, color = ~cluster,  type = "bar") %>%
+    layout(title = "Gender Distribution",
+           xaxis = list(title = "Gender"),
+           yaxis = list(title = "Sum of Approved Conversions"))
+  
+  plot2
+  
+  
+  
+  plot3 <- data2 %>%
+    group_by(cluster, interest) %>%
+    summarise(conversionRate = sum(Approved_Conversion)) %>%
+    plot_ly(x = ~interest, y = ~conversionRate, color = ~cluster,  type = "bar") %>%
+    layout(title = "Interest Distribution",
+           xaxis = list(title = "Interest"),
+           yaxis = list(title = "Sum of Approved Conversions"))
+  
+  plot3
+  
+  
 
-plotAge
-
-plotInterest <- data %>%
-  plot_ly() %>%
-  add_trace(x = ~interest, 
-            y = ~Total_Conversion, 
-            color = ~age,
-            colors = "Set1",
-            marker = list(size = 10)) %>%
-  layout(title = 'Conversion vs Interest by Age Group',
-         yaxis = list(zeroline = FALSE),
-         xaxis = list(zeroline = FALSE))
-plotInterest
-
-
-
-# --- kmeans
-
-kmeansData <- data %>%
-  mutate(Age30_34 = ifelse(age == "30-34", 1,0),
-         Age35_39 = ifelse(age == "35-39", 1,0),
-         Age40_44 = ifelse(age == "40-44", 1,0),
-         Age45_49 = ifelse(age == "45-49", 1,0),
-         Male_ind = ifelse(gender == "M", 1, 0)
-         ) %>%
-  select(ad_id,
-         interest,
-         Impressions,
-         Clicks,
-         Spent,
-         Total_Conversion,
-         Approved_Conversion,
-         Age30_34,
-         Age35_39,
-         Age40_44,
-         Age45_49,
-         Male_ind)
-
-# scale data
-kmeansDataDf <- scale(kmeansData[,-1], center = TRUE, scale = TRUE)
-# kmeans ckuster with 4 cluster
-kmeansCluster <- kmeans(kmeansDataDf, 4)
-kmeansCluster
-# add cluster label to data
-kmeansData$cluster <- as.factor(kmeansCluster$cluster)
-# add clusetr label to original data set
-labels = kmeansData[,c("ad_id", "cluster")]
-data2 <- left_join(data, labels, by = "ad_id", all = TRUE)
-
-# graph clusters
-plotBehaviour <- data2 %>%
-  #filter(cluster == "1") %>%
-  group_by(cluster, gender) %>%
-  summarise(count = n()) %>%
-  ggplot(aes(x = cluster, y = count, fill = gender))+
-  geom_bar(stat = "Identity")
-# plot graph
-plotBehaviour 
-
+  
+  plot4 <- data2 %>% 
+    plot_ly(x = ~Total_Conversion, y = ~Approved_Conversion, size = ~Spent, color = ~cluster)%>%
+    layout(title = "Cluster Distribution",
+           xaxis = list(title = "Total Conversion"),
+           yaxis = list(title = "Approved Conversion"))
+  
+  plot4
+  
+  
+  # Identify segments with high and low cost per acquisition.
+  plot5 <- data2 %>% 
+    plot_ly(x = ~Spent , y = ~Approved_Conversion , color = ~cluster)%>%
+    layout(title = "Cluster Distribution",
+           xaxis = list(title = "Spent"),
+           yaxis = list(title = "Approved Conversion"))
+  
+  plot5
+  
+  
+  
+  
+  # Segment the audience based on click through rates/ conversion rates
+  
+  # Compare how the various xyz_campaigns and fb_campaigns are performing.
+  
+  plot6 <- data2 %>%
+    group_by(xyz_campaign_id, Impressions) %>%
+    summarise(conversionRate = sum(Clicks)) %>%
+    plot_ly(x = ~Impressions, y = ~conversionRate, color = ~xyz_campaign_id) %>%
+    layout(title = "Clicks Distribution",
+           xaxis = list(title = "Impressions"),
+           yaxis = list(title = "Clicks"))
+  
+  plot6
+  
+  
+  
+  
+  
+}
 
 
 
